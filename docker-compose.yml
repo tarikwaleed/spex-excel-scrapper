@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  app:
+    image app
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: "production_app_container"
+    env_file:
+      - "./app/.env"
+    volumes:
+      - ./app/logs:/app/logs
+      - ./app/local-cdn:/app/local-cdn
+      - ./app/resources/generated:/app/resources/generated
