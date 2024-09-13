@@ -10,6 +10,7 @@ django = "*"
 selenium = "*"
 webdriver-manager = "*"
 requests = "*"
+gunicorn ="*"
 
 [dev-packages]
 black = "*"
