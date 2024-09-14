@@ -24,7 +24,6 @@ class Command(BaseCommand):
 
         try:
             scraper = Scrapper(headless=True)
-
             scraper.get_report('invoice', 'daily')
             scraper.get_report('profit', 'daily')
             scraper.get_report('products_profit', 'daily')
