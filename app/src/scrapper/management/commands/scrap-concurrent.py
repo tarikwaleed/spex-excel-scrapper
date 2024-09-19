@@ -1,8 +1,10 @@
+
 from django.core.management.base import BaseCommand
 import logging
 import inspect
 import time
 from shared.models import CommandException
+import concurrent.futures
 from scrapper.utils import Scrapper
 
 class Command(BaseCommand):
@@ -21,8 +23,7 @@ class Command(BaseCommand):
         current_function_name = inspect.currentframe().f_code.co_name
 
         try:
-            # scraper = Scrapper(headless=True)
-            scraper = Scrapper()
+            scraper = Scrapper(headless=True)
             
             # Define the report tasks for each category and period
             tasks = [
@@ -76,10 +77,20 @@ class Command(BaseCommand):
                         f"While processing {report_type} - {period} - {category or 'No Category'}: {e}"
                     )
 
-            # Run the scraping tasks sequentially in a loop
-            for task in tasks:
-                report_type, period, *category = task
-                run_scraper(report_type, period, *category)
+            # Run the scraping tasks in parallel
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                futures = [
+                    executor.submit(
+                        run_scraper, 
+                        report_type, 
+                        period, 
+                        *category  # Unpack category if present
+                    ) 
+                    for task in tasks
+                    for report_type, period, *category in [task]
+                ]
+                for future in concurrent.futures.as_completed(futures):
+                    future.result()  # Will raise an exception if any task failed
 
         except Exception as e:
             exception_count += 1
