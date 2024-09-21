@@ -21,8 +21,7 @@ class Command(BaseCommand):
         current_function_name = inspect.currentframe().f_code.co_name
 
         try:
-            # scraper = Scrapper(headless=True)
-            scraper = Scrapper()
+            scraper = Scrapper(headless=True)
             
             # Define the report tasks for each category and period
             tasks = [
@@ -57,8 +56,8 @@ class Command(BaseCommand):
                 ('products_profit', 'monthly', 'RODENSTOCK SINGLE'),
 
                 # Clients Sales reports
-                ('clients_sales', 'daily'),
-                ('clients_sales', 'monthly'),
+                # ('clients_sales', 'daily'),
+                # ('clients_sales', 'monthly'),
             ]
 
             def run_scraper(report_type, period, category=None):
