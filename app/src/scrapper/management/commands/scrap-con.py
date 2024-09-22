@@ -58,8 +58,8 @@ class Command(BaseCommand):
                 ('products_profit', 'monthly', 'RODENSTOCK SINGLE'),
 
                 # Clients Sales reports
-                ('clients_sales', 'daily'),
-                ('clients_sales', 'monthly'),
+                # ('clients_sales', 'daily'),
+                # ('clients_sales', 'monthly'),
             ]
 
             def run_scraper(report_type, period, category=None):

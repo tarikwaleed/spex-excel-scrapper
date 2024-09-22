@@ -21,7 +21,7 @@ class Command(BaseCommand):
         current_function_name = inspect.currentframe().f_code.co_name
 
         try:
-            scraper = Scrapper(headless=True)
+            scraper = Scrapper()
             
             # Define the report tasks for each category and period
             tasks = [
